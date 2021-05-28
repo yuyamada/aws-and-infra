@@ -12,7 +12,7 @@ resource "aws_vpc" "aws_and_infra" {
   }
 }
 
-resource "aws_subnet" "public_subnet" {
+resource "aws_subnet" "public" {
   vpc_id                  = aws_vpc.aws_and_infra.id
   cidr_block              = "10.0.10.0/24"
   map_public_ip_on_launch = true
@@ -23,7 +23,7 @@ resource "aws_subnet" "public_subnet" {
   }
 }
 
-resource "aws_subnet" "private_subnet" {
+resource "aws_subnet" "private" {
   vpc_id                  = aws_vpc.aws_and_infra.id
   cidr_block              = "10.0.20.0/24"
   map_public_ip_on_launch = false
@@ -32,4 +32,31 @@ resource "aws_subnet" "private_subnet" {
   tags = {
     Name = "aws-and-infra-private-subnet-1a"
   }
+}
+
+resource "aws_internet_gateway" "aws_and_infra" {
+  vpc_id = aws_vpc.aws_and_infra
+
+  tags = {
+    Name = "aws-and-infra-igw"
+  }
+}
+
+resource "aws_route_table" "public" {
+  vpc_id = aws_vpc.aws_and_infra.id
+
+  tags = {
+    Name = "aws-and-infra-public-route-table"
+  }
+}
+
+resource "aws_route" "public" {
+  route_table_id         = aws_route_table.public.id
+  gateway_id             = aws_internet_gateway.aws_and_infra.id
+  destination_cidr_block = "0.0.0.0/0"
+}
+
+resource "aws_route_table_association" "public" {
+  subnet_id      = aws_subnet.public.id
+  route_table_id = aws_route_table.public.id
 }
