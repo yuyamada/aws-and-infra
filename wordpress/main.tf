@@ -1,3 +1,7 @@
+locals {
+  project_name = "aws-and-infra"
+}
+
 provider "aws" {
   region = "ap-northeast-1"
 }
@@ -8,7 +12,7 @@ resource "aws_vpc" "aws_and_infra" {
   enable_dns_hostnames = true
 
   tags = {
-    Name = "aws-and-infra-vpc"
+    Name = "${local.project_name}-vpc"
   }
 }
 
@@ -19,7 +23,7 @@ resource "aws_subnet" "public" {
   availability_zone       = "ap-northeast-1a"
 
   tags = {
-    Name = "aws-and-infra-public-subnet-1a"
+    Name = "${local.project_name}-public-subnet-1a"
   }
 }
 
@@ -30,7 +34,7 @@ resource "aws_subnet" "private" {
   availability_zone       = "ap-northeast-1a"
 
   tags = {
-    Name = "aws-and-infra-private-subnet-1a"
+    Name = "${local.project_name}-private-subnet-1a"
   }
 }
 
@@ -38,7 +42,7 @@ resource "aws_internet_gateway" "aws_and_infra" {
   vpc_id = aws_vpc.aws_and_infra.id
 
   tags = {
-    Name = "aws-and-infra-igw"
+    Name = "${local.project_name}-igw"
   }
 }
 
@@ -46,7 +50,7 @@ resource "aws_route_table" "public" {
   vpc_id = aws_vpc.aws_and_infra.id
 
   tags = {
-    Name = "aws-and-infra-public-route-table"
+    Name = "${local.project_name}-public-route-table"
   }
 }
 
