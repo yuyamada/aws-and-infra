@@ -12,7 +12,7 @@ resource "aws_vpc" "aws_and_infra" {
   enable_dns_hostnames = true
 
   tags = {
-    Name = "${local.project_name}-vpc"
+    Name = "${local.project_name}-${terraform.workspace}-vpc"
   }
 }
 
