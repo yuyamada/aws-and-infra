@@ -23,7 +23,7 @@ resource "aws_subnet" "public" {
   availability_zone       = "ap-northeast-1a"
 
   tags = {
-    Name = "${local.project_name}-public-subnet-1a"
+    Name = "${local.project_name}-${terraform.workspace}-public-subnet-1a"
   }
 }
 
@@ -34,7 +34,7 @@ resource "aws_subnet" "private" {
   availability_zone       = "ap-northeast-1a"
 
   tags = {
-    Name = "${local.project_name}-private-subnet-1a"
+    Name = "${local.project_name}-${terraform.workspace}-private-subnet-1a"
   }
 }
 
@@ -42,7 +42,7 @@ resource "aws_internet_gateway" "aws_and_infra" {
   vpc_id = aws_vpc.aws_and_infra.id
 
   tags = {
-    Name = "${local.project_name}-igw"
+    Name = "${local.project_name}-${terraform.workspace}-igw"
   }
 }
 
@@ -50,7 +50,7 @@ resource "aws_route_table" "public" {
   vpc_id = aws_vpc.aws_and_infra.id
 
   tags = {
-    Name = "${local.project_name}-public-route-table"
+    Name = "${local.project_name}-${terraform.workspace}-public-route-table"
   }
 }
 
