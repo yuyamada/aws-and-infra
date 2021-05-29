@@ -65,11 +65,16 @@ resource "aws_route_table_association" "public" {
   route_table_id = aws_route_table.public.id
 }
 
+resource "aws_key_pair" "aws_and_infra" {
+  public_key = file("./.ssh/aws-and-infra.pub")
+}
+
 resource "aws_instance" "aws_and_infra" {
   ami           = "ami-0ca38c7440de1749a"
   instance_type = "t2.micro"
   subnet_id     = aws_subnet.public.id
   private_ip    = "10.0.10.10"
+  key_name      = aws_key_pair.aws_and_infra.id
 
   tags = {
     Name = "${local.project_name}-${terraform.workspace}-ec2"
