@@ -6,6 +6,13 @@ resource "aws_instance" "aws_and_infra" {
   private_ip             = "10.0.10.10"
   key_name               = aws_key_pair.aws_and_infra.id
 
+  user_data = <<EOF
+    #!/bin/bash
+    yum install -y httpd
+    systemctl enable httpd.service
+    systemctl start httpd.service
+  EOF
+
   tags = {
     Name = "${local.project_name}-${terraform.workspace}-ec2"
   }
