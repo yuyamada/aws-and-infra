@@ -1,9 +1,9 @@
-resource "aws_eip" "aws_and_infra" {
+resource "aws_eip" "web" {
   vpc                       = true
-  instance                  = aws_instance.aws_and_infra.id
-  associate_with_private_ip = aws_instance.aws_and_infra.private_ip
+  instance                  = aws_instance.web.id
+  associate_with_private_ip = aws_instance.web.private_ip
 }
 
-output "public_ip" {
-  value = aws_eip.aws_and_infra.public_ip
+output "web_public_ip" {
+  value = aws_eip.web.public_ip
 }
