@@ -11,6 +11,7 @@ resource "aws_instance" "web" {
     yum install -y httpd
     systemctl enable httpd.service
     systemctl start httpd.service
+    sudo yum install -y mysql
   EOF
 
   tags = {
