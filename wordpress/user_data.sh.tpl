@@ -16,7 +16,7 @@ m -e "FLUSH PRIVILEGES;"
 
 # setup wordpress
 amazon-linux-extras install -y php7.2
-yum install -y php php-mbstrings php-xml
+yum install -y php php-mbstrings php-xml php-gd php-devel.x86_64
 curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 chmod +x wp-cli.phar
 mv wp-cli.phar /usr/local/bin/wp
@@ -27,14 +27,8 @@ wp core config \
     --dbname=${wp_db_name} \
     --dbuser=${wp_db_user} \
     --dbpass=${wp_db_password} \
-    --dbhost=${db_host} \
-    --extra-php <<PHP
-define( 'AS3CF_SETTINGS', serialize( array(
-    'provider' => 's3',
-    'access-key-id' => '${s3_access_key_id}',
-    'secret-access-key' => '${s3_secret_access_key}',
-) ) );
-PHP
+    --dbhost=${db_host}
+
 wp core install \
     --url=${wp_url} \
     --title=${wp_title} \
