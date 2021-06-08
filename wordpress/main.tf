@@ -6,6 +6,15 @@ terraform {
   }
 }
 
+data "terraform_remote_state" "common" {
+  backend = "s3"
+  config = {
+    bucket = "yuyamada-terraform"
+    key    = "aws_and_infra/common/terraform.tfstate"
+    region = "ap-northeast-1"
+  }
+}
+
 provider "aws" {
   region = "ap-northeast-1"
 }
