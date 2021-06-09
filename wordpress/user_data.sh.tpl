@@ -38,6 +38,9 @@ wp core install \
 sudo /usr/local/bin/wp  plugin install amazon-s3-and-cloudfront
 wp plugin activate amazon-s3-and-cloudfront
 
+# information to distinguish insntanece from client
+echo $HOSTNAME > /var/www/html/test.html
+
 # start apache
 chown apache:apache /var/www/html/ -R
 systemctl start httpd.service

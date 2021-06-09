@@ -67,3 +67,29 @@ resource "aws_security_group_rule" "db_to_all" {
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.db.id
 }
+
+resource "aws_security_group" "lb" {
+  vpc_id = aws_vpc.aws_and_infra.id
+
+  tags = {
+    Name = "${local.project_name}-${terraform.workspace}-lb"
+  }
+}
+
+resource "aws_security_group_rule" "lb_http_from_all" {
+  type              = "ingress"
+  protocol          = "tcp"
+  from_port         = 80
+  to_port           = 80
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.lb.id
+}
+
+resource "aws_security_group_rule" "lb_to_all" {
+  type              = "egress"
+  protocol          = "-1"
+  from_port         = 0
+  to_port           = 0
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = aws_security_group.lb.id
+}

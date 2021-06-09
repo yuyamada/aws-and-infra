@@ -15,7 +15,6 @@ data "template_file" "user_data" {
   }
 }
 
-
 resource "aws_instance" "web" {
   ami                    = "ami-0ca38c7440de1749a"
   instance_type          = "t2.micro"
