@@ -9,6 +9,17 @@ resource "aws_subnet" "public" {
   }
 }
 
+resource "aws_subnet" "public_sub" {
+  vpc_id                  = aws_vpc.aws_and_infra.id
+  cidr_block              = "10.0.11.0/24"
+  map_public_ip_on_launch = true
+  availability_zone       = "ap-northeast-1c"
+
+  tags = {
+    Name = "${local.project_name}-${terraform.workspace}-public-subnet-1c"
+  }
+}
+
 resource "aws_subnet" "private" {
   vpc_id                  = aws_vpc.aws_and_infra.id
   cidr_block              = "10.0.20.0/24"
