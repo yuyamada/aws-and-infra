@@ -28,4 +28,6 @@ resource "aws_db_instance" "mysql" {
   parameter_group_name   = aws_db_parameter_group.mysql.name
   option_group_name      = aws_db_option_group.mysql.name
   skip_final_snapshot    = true
+  multi_az               = false
+  apply_immediately      = true
 }
