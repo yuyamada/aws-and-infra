@@ -23,7 +23,7 @@ resource "aws_db_instance" "mysql" {
   instance_class         = "db.t2.micro"
   username               = "root"
   password               = "password"
-  vpc_security_group_ids = [aws_security_group.db.id]
+  vpc_security_group_ids = [module.sg_db.id]
   db_subnet_group_name   = aws_db_subnet_group.mysql.name
   parameter_group_name   = aws_db_parameter_group.mysql.name
   option_group_name      = aws_db_option_group.mysql.name

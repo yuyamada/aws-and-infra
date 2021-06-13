@@ -2,7 +2,7 @@ resource "aws_lb" "aws_and_infra" {
   name               = "aws-and-infra"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.lb.id]
+  security_groups    = [module.sg_lb.id]
   subnets = [
     aws_subnet.public.id,
     aws_subnet.public_sub.id,

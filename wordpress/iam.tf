@@ -1,13 +1,3 @@
-data "aws_iam_policy_document" "ec2_assume_role" {
-  statement {
-    actions = ["sts:AssumeRole"]
-    principals {
-      type        = "Service"
-      identifiers = ["ec2.amazonaws.com"]
-    }
-  }
-}
-
 data "aws_iam_policy_document" "s3_full_access" {
   statement {
     actions   = ["s3:*"]
@@ -15,21 +5,17 @@ data "aws_iam_policy_document" "s3_full_access" {
   }
 }
 
-data "aws_iam_policy" "s3_full_access" {
-  arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
-}
+module "iam_role_wpadmin" {
+  source = "./modules/iam_role"
 
-resource "aws_iam_role" "wpadmin" {
-  name               = "aws-and-infra-wpadmin"
-  assume_role_policy = data.aws_iam_policy_document.ec2_assume_role.json
-}
-
-resource "aws_iam_role_policy_attachment" "ec2_s3_full_access" {
-  role       = aws_iam_role.wpadmin.name
-  policy_arn = data.aws_iam_policy.s3_full_access.arn
+  config = {
+    name       = "wpadmin"
+    policy     = data.aws_iam_policy_document.s3_full_access.json
+    identifier = "ec2.amazonaws.com"
+  }
 }
 
 resource "aws_iam_instance_profile" "wpadmin" {
-  name = "aws-and-infra-wpadmin"
-  role = aws_iam_role.wpadmin.name
+  name = "wpadmin"
+  role = module.iam_role_wpadmin.name
 }
